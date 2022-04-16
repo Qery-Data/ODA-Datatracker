@@ -29,3 +29,25 @@ headers = {
     "Accept": "*/*"
     }
 response = requests.request("POST", url, headers=headers)
+
+#ODA Last avaliable year Grant Equivivalent (hHpUJ) and GNI 
+oecd_url='https://stats.oecd.org/SDMX-JSON/data/TABLE1/801+1+2+301+68+3+18+4+5+40+75+20+21+6+701+742+22+7+820+8+76+9+69+61+50+10+11+12+302+918.1.11002+11010.1160.A/all?startTime=2021&endTime=2021&dimensionAtObservation=allDimensions&pid=c0dcdd50-2d08-440b-94d7-8aa50471b7ff'
+resultat = requests.get(oecd_url, headers={'Accept': 'text/csv'})
+df=pd.read_csv(io.StringIO(resultat.text))
+df_new = df.pivot(index='Donor', columns='Unit', values='Value')
+df_new.to_csv('data/OECD_ODA_GRANT_GNI_recent_y.csv', index=True)
+#Update DW
+chartid = 'hHpUJ'
+url = "https://api.datawrapper.de/v3/charts/" + chartid + '/publish/'
+headers = {
+    "Authorization": ("Bearer " + access_token),
+    "Accept": "*/*"
+    }
+response = requests.request("POST", url, headers=headers)
+chartid = 'ktEXH'
+url = "https://api.datawrapper.de/v3/charts/" + chartid + '/publish/'
+headers = {
+    "Authorization": ("Bearer " + access_token),
+    "Accept": "*/*"
+    }
+response = requests.request("POST", url, headers=headers)
