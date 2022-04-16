@@ -1,8 +1,6 @@
 name: OECD
 on: 
   workflow_dispatch:
-  schedule:
-    - cron: "* * * * *"
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
