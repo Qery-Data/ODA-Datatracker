@@ -67,3 +67,20 @@ headers = {
     "Accept": "*/*"
     }
 response = requests.request("POST", url, headers=headers)
+
+#ODA Pct change last year (ECLuA)
+oecd_url='https://stats.oecd.org/SDMX-JSON/data/TABLE1/801+1+2+301+68+3+18+4+5+40+75+20+21+6+701+742+22+7+820+8+76+9+69+61+50+10+11+12+302+918.1.11010.1140+1160.D/all?startTime=2020&endTime=2021&dimensionAtObservation=allDimensions&pid=c0dcdd50-2d08-440b-94d7-8aa50471b7ff'
+resultat = requests.get(oecd_url, headers={'Accept': 'text/csv'})
+df=pd.read_csv(io.StringIO(resultat.text))
+df_new = df.pivot(index='Donor', columns='Year', values='Value')
+df_new['change_pct'] = ((df_new.iloc[:,1] - df_new.iloc[:,0]) / df_new.iloc[:,0]*100)
+df_new.to_csv('data/OECD_ODA_pct_change_last_year.csv', index=True)
+
+#Update DW
+chartid = 'ECLuA'
+url = "https://api.datawrapper.de/v3/charts/" + chartid + '/publish/'
+headers = {
+    "Authorization": ("Bearer " + access_token),
+    "Accept": "*/*"
+    }
+response = requests.request("POST", url, headers=headers)
