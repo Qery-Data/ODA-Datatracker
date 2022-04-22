@@ -95,7 +95,7 @@ resultat = requests.get(oecd_url, headers={'Accept': 'text/csv'})
 df_pre18=pd.read_csv(io.StringIO(resultat.text))
 df_new_pre18 = df_pre18.pivot(index='Year', columns='Donor', values='Value')
 df_new_1 = pd.concat([df_new_pre18,df_new])
-df_new_1.to_csv('data/OECD_ODA_Total_Country.csv', index=True)
+df_new_1.to_csv('data/OECD_ODA_GNI_Total_Country.csv', index=True)
 
 #Update DW
 chartid = 'L4Dln'
