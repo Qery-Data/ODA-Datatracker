@@ -20,7 +20,7 @@ jobs:
       - name: 🍳 Update OECD
         env: 
           DW_TOKEN: ${{ secrets.DW_TOKEN }}
-        run: python oecd.py
+        run: python oecd_test.py
       - name: 🚀 Commit and push if it changed
         run: |
           git config user.name "${GITHUB_ACTOR}"
