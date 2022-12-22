@@ -9,20 +9,20 @@ import pandas as pd
 os.makedirs('data', exist_ok=True)
 access_token = os.getenv('DW_TOKEN')
 
-#ODA Grant Equivalent Measure, Total from 1960 (69Npy)
+#ODA Grant Equivalent Measure, Total from 1990 (69Npy)
 oecd_url='http://stats.oecd.org/SDMX-JSON/data/TABLE1/20001.1.11010.1160.D/all?startTime=2018'
 resultat = requests.get(oecd_url, headers={'Accept': 'text/csv'})
 df=pd.read_csv(io.StringIO(resultat.text))
 df_new = df.pivot(index='Year', columns='Donor', values='Value')
-oecd_url='http://stats.oecd.org/SDMX-JSON/data/TABLE1/20001.1.1010.1140.D/all?startTime=1960&endTime=2017&dimensionAtObservation=allDimension'
+oecd_url='http://stats.oecd.org/SDMX-JSON/data/TABLE1/20001.1.1010.1140.D/all?startTime=1990&endTime=2017&dimensionAtObservation=allDimension'
 resultat = requests.get(oecd_url, headers={'Accept': 'text/csv'})
 df_pre18=pd.read_csv(io.StringIO(resultat.text))
 df_new_pre18 = df_pre18.pivot(index='Year', columns='Donor', values='Value')
 df_new_1 = pd.concat([df_new_pre18,df_new])
 df_new_1.to_csv('data/OECD_ODA_Total.csv', index=True)
 
-#ODA Gross National Income from 1960 (Ptm3T)
-oecd_url='http://stats.oecd.org/SDMX-JSON/data/TABLE1/20001.1.11002+2.1140+1160.A+D+N/all?startTime=1960&endTime=2021&dimensionAtObservation=allDimensions'
+#ODA Gross National Income from 1990 (Ptm3T)
+oecd_url='http://stats.oecd.org/SDMX-JSON/data/TABLE1/20001.1.11002+2.1140+1160.A+D+N/all?startTime=1990&endTime=2021&dimensionAtObservation=allDimensions'
 resultat = requests.get(oecd_url, headers={'Accept': 'text/csv'})
 df=pd.read_csv(io.StringIO(resultat.text))
 df_new = df.pivot(index='Year', columns='Donor', values='Value')
