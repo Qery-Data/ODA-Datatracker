@@ -26,7 +26,7 @@ jobs:
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git add -A
-          timestamp=$(date -u)
+          timestamp=$(date -u +%Y-%m-%d-%H-%M-%S)
           branch_name="oda-oecd-data-update-${timestamp}"
           git checkout -b "${branch_name}"
           git commit -m "Latest data: ${timestamp}" || exit 0
