@@ -33,6 +33,7 @@ result = requests.get(oecd_url, headers={'Accept': 'text/csv'})
 df=pd.read_csv(io.StringIO(result.text))
 df_new = df.pivot(index='TIME_PERIOD', columns='DONOR', values='OBS_VALUE')
 df_new.rename(columns={'DAC': 'DAC Countries, Total'}, inplace=True)
+df_new.index.name = 'Year'
 df_new.to_csv('data/OECD_ODA_GNI_Total.csv', index=True)
 
 #ODA Last avaliable year Grant Equivivalent (hHpUJ) and GNI 
