@@ -24,6 +24,7 @@ df_new_1 = pd.concat([df_new_pre18,df_new])
 df_new_1.index = df_new_1.index.astype(int)
 df_new_1.sort_index(inplace=True)
 df_new_1.rename(columns={'DAC': 'DAC Countries, Total'}, inplace=True)
+df_new_1.index.name = 'Year'
 df_new_1.to_csv('data/OECD_ODA_Total.csv', index=True)
 
 #ODA Gross National Income from 1990 (Ptm3T)
@@ -48,6 +49,7 @@ df_new_gni = df_gni.pivot(index='DONOR', columns='TIME_PERIOD', values='OBS_VALU
 df_new_gni = df_new_gni.rename(index=rename_columns)
 df_new_gni.rename(columns={df_new_gni.columns[0]: 'Percentage'}, inplace=True)
 df_new_1 = pd.concat([df_new_gni,df_new], axis=1)
+df_new_1.index.name = 'Donor'
 df_new_1.to_csv('data/OECD_ODA_GRANT_GNI_recent_y.csv', index=True)
 
 
@@ -58,6 +60,7 @@ df=pd.read_csv(io.StringIO(resultat.text))
 df_new = df.pivot(index='DONOR', columns='TIME_PERIOD', values='OBS_VALUE')
 df_new['change_pct'] = ((df_new.iloc[:,1] - df_new.iloc[:,0]) / df_new.iloc[:,0]*100)
 df_new = df_new.rename(index=rename_columns)
+df_new.index.name = 'Donor'
 df_new.to_csv('data/OECD_ODA_pct_change_last_year.csv', index=True)
 
 #ODA Gross National Income from 1990, by Country (L4Dln)
@@ -70,10 +73,17 @@ df_new.index.name = 'Year'
 df_new.to_csv('data/OECD_ODA_GNI_Total_Country.csv', index=True)
 
 #ODA Grant Equivalent Measure, Total from 1990, by country (aPS1l)
-oecd_url='https://sdmx.oecd.org/public/rest/data/OECD.DCD.FSD,DSD_DAC1@DF_DAC1,1.0/CAN+JPN+GBR+USA+AUS+ISL+KOR+NZL+NOR+CHE+AUT+BEL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+IRL+ITA+LTU+LUX+NLD+POL+PRT+SVK+SVN+ESP+SWE+4EU001.11010+2...USD.Q.?startPeriod=1990&dimensionAtObservation=AllDimensions'
+oecd_url='https://sdmx.oecd.org/public/rest/data/OECD.DCD.FSD,DSD_DAC1@DF_DAC1,1.0/CAN+JPN+GBR+USA+AUS+ISL+KOR+NZL+NOR+CHE+AUT+BEL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+IRL+ITA+LTU+LUX+NLD+POL+PRT+SVK+SVN+ESP+SWE+4EU001.11010+2...USD.Q.?startPeriod=2018&dimensionAtObservation=AllDimensions'
 resultat = requests.get(oecd_url, headers={'Accept': 'text/csv'})
 df=pd.read_csv(io.StringIO(resultat.text))
 df_new = df.pivot(index='TIME_PERIOD', columns='DONOR', values='OBS_VALUE')
 df_new = df_new.rename(columns=rename_columns)
 df_new.index.name = 'Year'
+oecd_url='https://sdmx.oecd.org/public/rest/data/OECD.DCD.FSD,DSD_DAC1@DF_DAC1,1.0/CAN+JPN+GBR+USA+AUS+ISL+KOR+NZL+NOR+CHE+AUT+BEL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+IRL+ITA+LTU+LUX+NLD+POL+PRT+SVK+SVN+ESP+SWE+4EU001.1010+2..1140.USD.Q.?startPeriod=1990&endPeriod=2017&dimensionAtObservation=AllDimensions'
+resultat = requests.get(oecd_url, headers={'Accept': 'text/csv'})
+df=pd.read_csv(io.StringIO(resultat.text))
+df_new_1 = df.pivot(index='TIME_PERIOD', columns='DONOR', values='OBS_VALUE')
+df_new_1 = df_new_1.rename(columns=rename_columns)
+df_new_1.index.name = 'Year'
+df_final = pd.concat([df_new_1, df_new])
 df_new.to_csv('data/OECD_ODA_Total_Country.csv', index=True)
