@@ -87,4 +87,5 @@ df_new_1 = df.pivot(index='TIME_PERIOD', columns='DONOR', values='OBS_VALUE')
 df_new_1 = df_new_1.rename(columns=rename_columns)
 df_new_1.index.name = 'Year'
 df_final = pd.concat([df_new_1, df_new])
+df_final = df_final.sort_index(axis=1)
 df_final.to_csv('data/OECD_ODA_Total_Country.csv', index=True)
