@@ -55,7 +55,7 @@ df_new_1.to_csv('data/OECD_ODA_GRANT_GNI_recent_y.csv', index=True)
 
 
 #ODA Pct change last year (ECLuA)
-oecd_url='https://sdmx.oecd.org/public/rest/data/OECD.DCD.FSD,DSD_DAC1@DF_DAC1,/CAN+JPN+GBR+USA+AUS+ISL+KOR+NZL+NOR+CHE+AUT+BEL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+IRL+ITA+LTU+LUX+NLD+POL+PRT+SVK+SVN+ESP+SWE+4EU001.11010+2...USD.Q.?startPeriod=2022&endPeriod=2023&dimensionAtObservation=AllDimensions'
+oecd_url='https://sdmx.oecd.org/public/rest/data/OECD.DCD.FSD,DSD_DAC1@DF_DAC1,/CAN+JPN+GBR+USA+AUS+ISL+KOR+NZL+NOR+CHE+AUT+BEL+CZE+DNK+EST+FIN+FRA+DEU+GRC+HUN+IRL+ITA+LTU+LUX+NLD+POL+PRT+SVK+SVN+ESP+SWE+4EU001.11010+2...USD.Q.?startPeriod=2023&endPeriod=2024&dimensionAtObservation=AllDimensions'
 resultat = requests.get(oecd_url, headers={'Accept': 'text/csv'})
 df=pd.read_csv(io.StringIO(resultat.text))
 df_new = df.pivot(index='DONOR', columns='TIME_PERIOD', values='OBS_VALUE')
